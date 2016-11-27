@@ -1,0 +1,46 @@
+vraag: willen we ons focussen op LSTM + classifier, of de manual features (+ misschien word2vec, check chen & manning 2014)?
+
+incremental dependency parser left to right
+shift-reduce of arc-standard (kan ook arc-hybrid, maar is lastiger) parsing (queue and stack)
+arc-standard always needs 2 items on stack for reduce
+after left reduce, remove first from stack, keep dependency
+
+
+word embeddings start out random (word2vec for initialization is ok), in a word embedding matrix, values generally between -100 and 100
+word vectors shouldn't be too large, or too small. 70 is usually fine.
+vectors can also be sparse binary vectors with manual features (noun/plural/starts with letter x/...   check chen & manning 2014)
+or combine manual pos tags and word2vec-type vectors
+the vectors of the first k words go into the lstm (first left, then right), and the output from both left and right we concatenate (per word)
+this output is fed into a perceptron, which predicts shift/left/right
+needs some kind of logic so it doesn't try to go left if there's no place to go left to etc.
+
+
+
+
+verkeerd gekozen path in het begin zet zich voort door de hele zin -> lange zinnen minder goede prestatie
+
+
+-----LEZEN:-----
+
+	https://github.com/neubig/nlptutorial/tree/master/download/11-depend
+
+If you already want to get started, here are the 2 main references:
+
+    Kiperwasser & Goldberg https://arxiv.org/pdf/1603.04351.pdf
+    Cross & Huang https://www.aclweb.org/anthology/P/P16/P16-2006.pdf
+
+You can also find some general dependency parsing information here:
+
+    Stanford Dep parser http://nlp.stanford.edu/software/nndep.shtml
+    Google Syntaxnet https://research.googleblog.com/2016/05/announcing-syntaxnet-worlds-most.html
+
+chen & manning (2014) fast dependency parser
+	http://cs.stanford.edu/people/danqi/papers/emnlp2014.pdf
+
+
+both papers bidirectional lstm (no manual features, but possible)
+we can ignore dynamic oracle
+
+
+parsey mcparseface?
+https://research.googleblog.com/2016/05/announcing-syntaxnet-worlds-most.html
